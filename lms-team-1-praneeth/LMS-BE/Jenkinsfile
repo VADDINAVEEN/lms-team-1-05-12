@@ -29,7 +29,7 @@ pipeline {
         }
         stage ('container') {
             steps {
-                sh 'docker run -dt --name be -p 8081:8081 backend'
+                sh 'docker run -dt --name be -p 8081:8080 backend'
             }
         }
     }
