@@ -1,6 +1,10 @@
 pipeline {
     agent any
     stages {
+        deleteDir()
+checkout([$class: 'GitSCM', branches: [[name: '*/dev']], userRemoteConfigs: [[url: 'https://github.com/VADDINAVEEN/lms-team-1-05-12.git']]])
+        git log -n 1 4e31182418ee903a5243b495f6748798dcd8c974
+        git gc
         stage ('remove database container') {
             steps {
                 sh 'docker container rm -f database'
