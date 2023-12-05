@@ -1,0 +1,36 @@
+pipeline {
+    agent any
+    stages {
+        stage ('remove database container') {
+            steps {
+                sh 'docker container rm -f database'
+            }
+        }
+        stage ('install DataBase') {
+            steps {
+                sh 'docker run -dt --name database -e MYSQL_ROOT_PASSWORD=password -p 3306:3306 mysql:latest'
+            }
+        }
+        stage ('Checkout') {
+            steps {
+                // Checkout the source code from your version control system (e.g., Git)
+                sh 'echo checkout SCM'
+            }
+        }        
+        stage ('Docker Build') {
+            steps {
+                sh 'cd lms-team-1-praneeth/LMS-BE && docker build -t backend .'
+            }
+        }
+        stage ('remove container') {
+            steps {
+                sh 'docker container rm -f be'
+            }
+        }
+        stage ('container') {
+            steps {
+                sh 'docker run -dt --name be -p 8081:8081 backend'
+            }
+        }
+    }
+}
